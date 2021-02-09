@@ -14,12 +14,12 @@ export default function App() {
             path='/'
             exact
             component={() => (
-              <Home character={character} setCharacter={setCharacter} />
+              <Home  />
             )}
           />
           <Route
-            path='/details:id'
-            component={() => <DetailPage character={character} />}
+            path='/details/:id'
+            component={() => <DetailPage  />}
           />
         </Switch>
       </Router>

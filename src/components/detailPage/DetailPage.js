@@ -1,22 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function DetailPage({ character }) {
+import { getCharacter } from '../utils/utils';
+
+export default function DetailPage() {
+  const [loading, setLoading] = useState();
+  const [character, setCharacter] = useState([]);
+  const { id } = useParams();
+  useEffect(() => {
+    setLoading(true);
+    getCharacter(id).then((item) => {
+      setCharacter(item);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return <div>Loading</div>;
   return (
-    <div>
-      <Link to='/'>HOME</Link>
-      <h1>{character.name}</h1>
+    <>
+      <p>name: {character.name}</p>
       <img src={character.image} alt={character.name} />
-      <p>Gender: {character.gender}</p>
-      <p>Species: {character.species}</p>
-      {character.episode.map((item) => (
-        <p key={item + Date.now()}>{item}</p>
-      ))}
-    </div>
+      <p>{character.gender}</p>
+    </>
   );
 }
-
-DetailPage.propTypes = {
-  character: PropTypes.object.isRequired,
-};
